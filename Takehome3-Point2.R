@@ -10,6 +10,8 @@
 # epsilon=0.012
 # m=rnorm(1, mean=1, sd=0.5)
 
+# Clear the variables
+rm(list = ls())
 
 riskpremium=7.44
 riskfree=1.05
@@ -17,15 +19,19 @@ x=rnorm(100,1,0.5)
 y=rnorm(100,4,3)
 dummy=y
 #count=0
-for(t in 1:length(dummy)){
-  if(dummy[t]>4){
-    dummy[t]=1
-    #count=count+1
+v <- function(dummy,x){
+  for(t in 1:length(dummy)){
+    if(dummy[t]>4){
+      dummy[t]=1
+      #count=count+1
+    }
+    else{
+      dummy[t]=0
+    }
   }
-  else{
-    dummy[t]=0
-  }
+  value=abs(1/(1-x))*dummy
+  return(value)
 }
 
-value=abs(1/(1-x))*dummy
+value=v(dummy,x)
 plot(value)
