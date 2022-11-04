@@ -3,10 +3,10 @@ options(digits = 15)
 v <- function(dummy, x) {
   for (t in 1 : length(dummy)) {
     if (dummy[t] > 4) {
-      dummy[t]  <-  1
+      dummy[t]  <-  2
     }
     else {
-      dummy[t]  <-  0
+      dummy[t]  <-  1
     }
   }
   value <-  abs(1 / (1 - x)) * dummy
