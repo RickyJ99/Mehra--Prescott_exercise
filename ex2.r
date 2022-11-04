@@ -64,14 +64,25 @@ riskComputation <- function(m){
 
     p       <- (inv(I - beta * Pi_star)) %*% (beta * (Pi_star %*% v1))
     p
+    
+    v2      <- matrix(data=0,3,3)
+    v2[1,1] <- (1+p[1])*values_states[1]
+    v2[2,2] <- (1+p[2])*values_states[2]
+    v2[3,3] <- (1+p[3])*values_states[3]
+    v3      <- matrix((p)^(-1),3,3)
+    
+    v4      <- v3%*%v2
 
+    rr      <- t(c(1/3,1/3,1/3))%*%v4%*%st_prob
+    as.numeric(rr)
+    
     rp      <- p[, 1] %*% st_prob
-    as.numeric(rp)
+    
 
     #compute index
-    i       <- v(rp, rf * 100)
+    i       <- v((rr-1)*100, rf * 100)
 
-    out     <- c(rf * 100, rp, log(i))
+    out     <- c(rf * 100, (rr-1)*100, log(i))
 
     return(out)
 
