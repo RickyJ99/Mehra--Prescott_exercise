@@ -12,6 +12,7 @@ v <- function(dummy, x) {
   value <-  abs(1 / (1 - x)) * dummy
   return(value)
 }
+
 riskComputation <- function(m){
     #parameters 
     
@@ -68,9 +69,9 @@ riskComputation <- function(m){
     as.numeric(rp)
 
     #compute index
-    i       <- log(v(rp, rf))
+    i       <- v(rp, rf * 100)
 
-    out     <- c(rf, rp, i)
+    out     <- c(rf * 100, rp, log(i))
 
     return(out)
 
@@ -79,13 +80,13 @@ riskComputation <- function(m){
 main <- function() {
     #bisection variable
     
-    max     <- 2.0000
+    max     <- 20.0000
     min     <- 0.0000
     half    <- (max - min) / 2 + min
     i       <- 0
     count   <- 1
     
-    while (i < 0.1) {
+    while (i < 20) {
       print(cbind("Iteration: ", count))
 
       m1  <- c((max - min) / 4, (max - min) * 3 / 4) + min
