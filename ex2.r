@@ -1,4 +1,5 @@
 library(matlib)
+options(digits = 15)
 v <- function(dummy, x) {
   for (t in 1 : length(dummy)) {
     if (dummy[t] > 4) {
@@ -67,7 +68,7 @@ riskComputation <- function(m){
     as.numeric(rp)
 
     #compute index
-    i       <- v(rp, rf)
+    i       <- log(v(rp, rf))
 
     out     <- c(rf, rp, i)
 
@@ -77,35 +78,49 @@ riskComputation <- function(m){
 
 main <- function() {
     #bisection variable
-    max     <- 1.054
-    min     <- 0.982
+    
+    max     <- 2.0000
+    min     <- 0.0000
     half    <- (max - min) / 2 + min
     i       <- 0
+    count   <- 1
+    
+    while (i < 0.1) {
+      print(cbind("Iteration: ", count))
 
-    while(i < 1){
-        m1  <- c((max - min) / 4, (max - min) * 3 / 4) + min
-        print(m1)
-        bis <- matrix(NA, nrow = 2, ncol = 4)
-        #   index    m   free    p   val
-        #   1
-        #   2
-        bis[, 1] <- as.numeric(m1)
-        #recall a function to compute risk rate for m[1] and the index
-        bis[1, 2:4] <- riskComputation(m1[1])
+      m1  <- c((max - min) / 4, (max - min) * 3 / 4) + min
 
-        #recall a function to compute risk rate for m[1] and the index
-        bis[2, 2:4] <- riskComputation(m1[2])
-        print(bis)
-        #select the one with max index
-        if (bis[1, 4] >= bis[2, 4]) {
-            max     <- half
-            half    <- (max - min) / 2 + min
-            i       <- bis[1, 4]
-        } else {
-            min     <- half
-            half    <- (max - min) / 2 + min
-            i       <- bis[2, 4]
-        }
+      
+
+      bis <- matrix(NA, nrow = 2, ncol = 4)
+      #   index    m   free    p   val
+      #   1
+      #   2
+
+      bis[, 1] <- as.numeric(m1)
+
+      #recall a function to compute risk rate for m[1] and the index
+      bis[1, 2:4] <- riskComputation(m1[1])
+
+      #recall a function to compute risk rate for m[1] and the index
+      bis[2, 2:4] <- riskComputation(m1[2])
+      
+      #select the one with max index
+      if (bis[1, 4] > bis[2, 4]) {
+          max     <- half
+          half    <- (max - min) / 2 + min
+          print(bis[1,])
+          i       <- bis[1, 4]
+      } else if (bis[1, 4] < bis[2, 4]) {
+          min     <- half
+          half    <- (max - min) / 2 + min
+          print(bis[2,])
+          i       <- bis[2, 4]
+      } else {
+        print(bis[1, ])
+        i <- 100
+      }
+      count <- count + 1
     }
 }
 main()
