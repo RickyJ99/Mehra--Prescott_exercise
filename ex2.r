@@ -13,6 +13,7 @@ v <- function(dummy, x) {
 }
 riskComputation <- function(m){
     #parameters 
+    
     phi     <- 0.43
     beta    <- 0.96
     gamma   <- 2
@@ -59,7 +60,7 @@ riskComputation <- function(m){
     I       <- diag(3)
     v1      <- c(1, 1, 1)
 
-    p       <- (t(I - beta * Pi_star)) %*% (beta * (Pi_star %*% v1))
+    p       <- (inv(I - beta * Pi_star)) %*% (beta * (Pi_star %*% v1))
     p
 
     rp      <- p[, 1] %*% st_prob
