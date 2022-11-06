@@ -175,6 +175,27 @@ main <- function(){
   l       <- 0.982
   param   <- c(h, l, gamma, phi)
   m       <- bisection(param)
-  
+  m       <- bisection(param)
+  h       <- seq(from = 1.03, to=1.2, by=0.005) 
+  l       <- seq(from = 0.83, to=0.99, by=0.005)
+  mlist1  <- c(0)
+  hlist   <- c(0)
+  llist   <- c(0)
+  ilist   <- c(0)
+  mlist   <- matrix(data=c(mlist1, hlist, llist),1,3)
+  for (i in 1:length(h)){
+    for (j in 1:length(l)){
+      param <- c(h[i], l[j], gamma, phi)
+      v = bisection(param)
+      print(h[i])
+      print(l[j])
+      mlist<-rbind(mlist,c(v[1],h[i],l[j]))
+    }
+  }
+  return(mlist)
 }
-main()
+mlist=main()
+mlist=mlist[mlist[,1]<1.2,]
+mlist=mlist[mlist[,1]>0,]
+scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
+plot(mlist[,2]-mlist[,3], mlist[,1])
