@@ -89,8 +89,8 @@ riskComputation <- function(m, param){
     #computing the matrix to convert the prices into rates
     v4      <- v3 %*% v2
 
-    #computing the avarage risk rate using an equal weight for the three status
-    rr      <- t(c(rep(1 / 3, 3))) %*% v4 %*% st_prob
+    #computing the average risk rate using an equal weight for the three status
+    rr      <- t(st_prob) %*% v4 %*% st_prob
     as.numeric(rr)
     
     #rp      <- p[, 1] %*% st_prob
@@ -199,3 +199,7 @@ mlist=mlist[mlist[,1]<1.2,]
 mlist=mlist[mlist[,1]>0,]
 scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
 plot(mlist[,2]-mlist[,3], mlist[,1])
+h       <- 1.054
+l       <- 0.982
+param   <- c(h, l, gamma, phi)
+m       <- bisection(param)
