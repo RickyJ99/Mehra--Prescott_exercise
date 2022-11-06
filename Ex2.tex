@@ -1,0 +1,449 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Monetary policy and asset pricing - Assignment no.1},
+  pdfauthor={Riccardo Dal Cero},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Monetary policy and asset pricing - Assignment no.1}
+\author{Riccardo Dal Cero}
+\date{06/11/2022}
+
+\begin{document}
+\maketitle
+
+\hypertarget{initial-operations}{%
+\subsection{Initial Operations}\label{initial-operations}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Clear the variables}
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+
+\CommentTok{\# Install packages}
+\NormalTok{packages }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"matlib"}\NormalTok{, }\StringTok{"rmarkdown"}\NormalTok{, }\StringTok{"tinytex"}\NormalTok{)}
+\NormalTok{new.packages }\OtherTok{\textless{}{-}}\NormalTok{ packages[}\SpecialCharTok{!}\NormalTok{(packages }\SpecialCharTok{\%in\%} \FunctionTok{installed.packages}\NormalTok{()[, }\StringTok{"Package"}\NormalTok{])]}
+\ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(new.packages)) }\FunctionTok{install.packages}\NormalTok{(new.packages)}
+\FunctionTok{invisible}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(packages, library, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{))}
+\CommentTok{\# Load packages}
+\FunctionTok{library}\NormalTok{(matlib)}
+\FunctionTok{options}\NormalTok{(}\AttributeTok{digits =} \DecValTok{15}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{point-2}{%
+\subsection{POINT 2}\label{point-2}}
+
+We define a bisection alghorithm that max the value function which
+represents the following preferences: risk premium rate \textgreater{}
+4\% and risk free rate -\textgreater{} Epsilon
+
+\hypertarget{risk-computation}{%
+\subsubsection{Risk computation}\label{risk-computation}}
+
+the risk computation function take m as input and compute the risk free
+/ premium rate and recall the value function with such values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{riskComputation }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(m,param)\{}
+    \CommentTok{\#parameters }
+\NormalTok{    phi     }\OtherTok{\textless{}{-}}\NormalTok{  param[}\DecValTok{4}\NormalTok{]}
+\NormalTok{    beta    }\OtherTok{\textless{}{-}} \FloatTok{0.96}
+\NormalTok{    gamma   }\OtherTok{\textless{}{-}}\NormalTok{ param[}\DecValTok{3}\NormalTok{]}
+\NormalTok{    h       }\OtherTok{\textless{}{-}}\NormalTok{ param[}\DecValTok{1}\NormalTok{]}
+\NormalTok{    l       }\OtherTok{\textless{}{-}}\NormalTok{ param[}\DecValTok{2}\NormalTok{]}
+\NormalTok{    epsilon }\OtherTok{\textless{}{-}} \FloatTok{0.012}
+
+    \CommentTok{\#Generate pi Matrix}
+\NormalTok{    valuesPi        }\OtherTok{\textless{}{-}}   \FunctionTok{c}\NormalTok{(phi, epsilon, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ phi }\SpecialCharTok{{-}}\NormalTok{ epsilon, }\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{,}
+     \DecValTok{0}\NormalTok{, }\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{, }\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ phi }\SpecialCharTok{{-}}\NormalTok{ epsilon, epsilon, phi)}
+\NormalTok{    Pi              }\OtherTok{\textless{}{-}}   \FunctionTok{matrix}\NormalTok{(valuesPi, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{3}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{3}\NormalTok{)}
+
+    \CommentTok{\#a vector that contains the three states of the system}
+\NormalTok{    values\_states   }\OtherTok{\textless{}{-}}   \FunctionTok{c}\NormalTok{(h,m,l)}
+
+    \CommentTok{\#ouput vector}
+\NormalTok{    out }\OtherTok{\textless{}{-}}  \FunctionTok{c}\NormalTok{()}
+
+    \CommentTok{\#stationary prob.}
+\NormalTok{    st\_prob }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{, epsilon, }\FloatTok{0.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ epsilon)}
+
+    \CommentTok{\#Computing the zero{-}cupon bond }
+\NormalTok{    q   }\OtherTok{\textless{}{-}}\NormalTok{  beta }\SpecialCharTok{*}\NormalTok{ (Pi }\SpecialCharTok{\%*\%}\NormalTok{ (values\_states }\SpecialCharTok{\^{}{-}}\NormalTok{ gamma))}
+
+    \CommentTok{\#compute risk{-}free rate vector}
+\NormalTok{    risk\_free   }\OtherTok{\textless{}{-}}\NormalTok{   (}\DecValTok{1} \SpecialCharTok{/}\NormalTok{ (q)) }\SpecialCharTok{{-}} \DecValTok{1}
+
+    \CommentTok{\#compute mean risk free rate using stationary prob. as a weight}
+\NormalTok{    rf }\OtherTok{\textless{}{-}}\NormalTok{ risk\_free[, }\DecValTok{1}\NormalTok{] }\SpecialCharTok{\%*\%}\NormalTok{ st\_prob}
+    \FunctionTok{as.numeric}\NormalTok{(rf)}
+
+    \CommentTok{\#risky\_rate}
+\NormalTok{    values\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\DecValTok{3}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (values\_states}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ gamma))}
+
+    \CommentTok{\#Computing Pi star}
+\NormalTok{    Pi\_star }\OtherTok{\textless{}{-}}\NormalTok{  Pi }\SpecialCharTok{\%*\%}\NormalTok{ values\_matrix}
+
+\NormalTok{    I       }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\DecValTok{3}\NormalTok{) }\CommentTok{\#diagonal matrix}
+\NormalTok{    v1      }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{) }\CommentTok{\#[1,1,1]}
+
+    \CommentTok{\#Computing risk premium prices }
+\NormalTok{    p       }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{inv}\NormalTok{(I }\SpecialCharTok{{-}}\NormalTok{ beta }\SpecialCharTok{*}\NormalTok{ Pi\_star)) }\SpecialCharTok{\%*\%}\NormalTok{ (beta }\SpecialCharTok{*}\NormalTok{ (Pi\_star }\SpecialCharTok{\%*\%}\NormalTok{ v1))}
+    
+    \CommentTok{\#Converting prices in rates}
+
+    \CommentTok{\# values in diagonal matrix}
+\NormalTok{    values     }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{((}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ p) }\SpecialCharTok{*}\NormalTok{ values\_states)}
+
+    \CommentTok{\#generate the diagonal matrix}
+\NormalTok{    v2      }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{diag}\NormalTok{(values), }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+
+    \CommentTok{\#generate the matrix}
+\NormalTok{    v3      }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{((p)}\SpecialCharTok{\^{}}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+    
+    \CommentTok{\#computing the matrix to convert the prices into rates}
+\NormalTok{    v4      }\OtherTok{\textless{}{-}}\NormalTok{ v3 }\SpecialCharTok{\%*\%}\NormalTok{ v2}
+
+    \CommentTok{\#computing the avarage risk rate using an equal weight for the three status}
+\NormalTok{    rr      }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{))) }\SpecialCharTok{\%*\%}\NormalTok{ v4 }\SpecialCharTok{\%*\%}\NormalTok{ st\_prob}
+    \FunctionTok{as.numeric}\NormalTok{(rr)}
+
+    \CommentTok{\#compute index}
+\NormalTok{    i       }\OtherTok{\textless{}{-}} \FunctionTok{v}\NormalTok{((rr }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, rf }\SpecialCharTok{*} \DecValTok{100}\NormalTok{)}
+
+\NormalTok{    out     }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(rf }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, (rr }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\FunctionTok{log}\NormalTok{(i))}
+
+    \FunctionTok{return}\NormalTok{(out)}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{value-function}{%
+\subsubsection{Value function}\label{value-function}}
+
+Value function: given the risk premium rate = `dummy' and `x' = risk
+free rate as input return a value which is higher when x -\textgreater{}
+1 and dummy \textgreater{} 4
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(dummy, x) \{}
+
+  \ControlFlowTok{for}\NormalTok{ (t }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(dummy)) \{}
+    \ControlFlowTok{if}\NormalTok{ (dummy[t] }\SpecialCharTok{\textgreater{}} \DecValTok{4}\NormalTok{) \{}
+\NormalTok{      dummy[t]  }\OtherTok{\textless{}{-}}  \DecValTok{2}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{      dummy[t]  }\OtherTok{\textless{}{-}}  \DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{  value }\OtherTok{\textless{}{-}}  \FunctionTok{abs}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ x)) }\SpecialCharTok{*}\NormalTok{ dummy}
+  \FunctionTok{return}\NormalTok{(value)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{bisection-alghorithm}{%
+\subsubsection{Bisection alghorithm}\label{bisection-alghorithm}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bisection }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(param) \{}
+    \CommentTok{\#bisection variable}
+    \CommentTok{\#setting the max min value for m}
+\NormalTok{    max     }\OtherTok{\textless{}{-}} \FloatTok{20.0000}
+\NormalTok{    min     }\OtherTok{\textless{}{-}} \FloatTok{0.0000}
+\NormalTok{    half    }\OtherTok{\textless{}{-}}\NormalTok{ (max }\SpecialCharTok{{-}}\NormalTok{ min) }\SpecialCharTok{/} \DecValTok{2} \SpecialCharTok{+}\NormalTok{ min}
+\NormalTok{    i       }\OtherTok{\textless{}{-}} \DecValTok{0} \CommentTok{\#values from value function}
+\NormalTok{    count   }\OtherTok{\textless{}{-}} \DecValTok{1} \CommentTok{\#numeber of iteration}
+\NormalTok{    out }\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{()}
+    \ControlFlowTok{while}\NormalTok{ (i }\SpecialCharTok{\textless{}} \DecValTok{20}\NormalTok{) \{}
+      \FunctionTok{print}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(}\StringTok{"Iteration: "}\NormalTok{, count))}
+
+      \CommentTok{\#A vector which takes the first quartile and the last}
+      \CommentTok{\#from the set of possibile values (max{-}min)}
+\NormalTok{      m1  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{((max }\SpecialCharTok{{-}}\NormalTok{ min) }\SpecialCharTok{/} \DecValTok{4}\NormalTok{, (max }\SpecialCharTok{{-}}\NormalTok{ min) }\SpecialCharTok{*} \DecValTok{3} \SpecialCharTok{/} \DecValTok{4}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ min}
+
+\NormalTok{      bis }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{2}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{4}\NormalTok{)}
+      \CommentTok{\#   index    m     free    p   val}
+      \CommentTok{\#   1       m1[1]}
+      \CommentTok{\#   2       m1[2]}
+
+\NormalTok{      bis[, }\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(m1)}
+
+      \CommentTok{\#recall a function to compute risk rate for m[1] and the index}
+\NormalTok{      bis[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{riskComputation}\NormalTok{(m1[}\DecValTok{1}\NormalTok{], param)}
+
+      \CommentTok{\#recall a function to compute risk rate for m[1] and the index}
+\NormalTok{      bis[}\DecValTok{2}\NormalTok{, }\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{riskComputation}\NormalTok{(m1[}\DecValTok{2}\NormalTok{], param)}
+      
+      \CommentTok{\#select the one with max index(value)}
+      \ControlFlowTok{if}\NormalTok{ (bis[}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{] }\SpecialCharTok{\textgreater{}}\NormalTok{ bis[}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{]) \{}
+        \CommentTok{\#the m in the first quartile is the one with greater index(value)}
+        \CommentTok{\#so the m value that max the value function is in the first half}
+        \CommentTok{\#of the distribution}
+        \CommentTok{\#so now I will restrict the possibile values of m by half, selecting}
+        \CommentTok{\#the first half of the distribution}
+
+\NormalTok{        max     }\OtherTok{\textless{}{-}}\NormalTok{ half}
+\NormalTok{        half    }\OtherTok{\textless{}{-}}\NormalTok{ (max }\SpecialCharTok{{-}}\NormalTok{ min) }\SpecialCharTok{/} \DecValTok{2} \SpecialCharTok{+}\NormalTok{ min}
+        \FunctionTok{print}\NormalTok{(bis[}\DecValTok{1}\NormalTok{,])}
+\NormalTok{        i       }\OtherTok{\textless{}{-}}\NormalTok{ bis[}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{]  }\CommentTok{\#output of the value function given m}
+\NormalTok{        out }\OtherTok{\textless{}{-}}\NormalTok{ bis[}\DecValTok{1}\NormalTok{,]}
+
+\NormalTok{      \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (bis[}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{] }\SpecialCharTok{\textless{}}\NormalTok{ bis[}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{]) \{}
+        \CommentTok{\#the same as above, but we take the other half of the distrib.}
+
+\NormalTok{        min     }\OtherTok{\textless{}{-}}\NormalTok{ half}
+\NormalTok{        half    }\OtherTok{\textless{}{-}}\NormalTok{ (max }\SpecialCharTok{{-}}\NormalTok{ min) }\SpecialCharTok{/} \DecValTok{2} \SpecialCharTok{+}\NormalTok{ min}
+        \FunctionTok{print}\NormalTok{(bis[}\DecValTok{2}\NormalTok{,])}
+\NormalTok{        i       }\OtherTok{\textless{}{-}}\NormalTok{ bis[}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{        out }\OtherTok{\textless{}{-}}\NormalTok{  bis[}\DecValTok{2}\NormalTok{,]}
+
+\NormalTok{      \} }\ControlFlowTok{else}\NormalTok{ \{}
+        \CommentTok{\#In case the value function return the same value for the two m}
+        \CommentTok{\#we have convergence so I stop the cycle}
+
+        \FunctionTok{print}\NormalTok{(bis[}\DecValTok{1}\NormalTok{, ])}
+
+\NormalTok{        i }\OtherTok{\textless{}{-}} \DecValTok{100}
+\NormalTok{      \}}
+\NormalTok{      count }\OtherTok{\textless{}{-}}\NormalTok{ count }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{    \}}
+    \FunctionTok{return}\NormalTok{(out)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{main-function}{%
+\subsubsection{Main function}\label{main-function}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{main }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
+\NormalTok{  phi     }\OtherTok{\textless{}{-}} \FloatTok{0.43}
+\NormalTok{  gamma   }\OtherTok{\textless{}{-}} \DecValTok{2}
+\NormalTok{  h       }\OtherTok{\textless{}{-}} \FloatTok{1.054}
+\NormalTok{  l       }\OtherTok{\textless{}{-}} \FloatTok{0.982}
+\NormalTok{  param   }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(h, l, gamma, phi)}
+\NormalTok{  m       }\OtherTok{\textless{}{-}} \FunctionTok{bisection}\NormalTok{(param)}
+  \FunctionTok{return}\NormalTok{(m)}
+\NormalTok{\}}
+\FunctionTok{main}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    count
+## [1,] "Iteration: " "1"  
+## [1]  5.00000000000000  9.00417241999373 16.37178889289230 -1.38681577765787
+##                    count
+## [1,] "Iteration: " "2"  
+## [1]  2.50000000000000  8.83878206073685 12.91190965546454 -1.36593629233859
+##                    count
+## [1,] "Iteration: " "3"  
+## [1]  1.25000000000000  8.18215972525146 10.91522811534871 -1.27845295465851
+##                    count
+## [1,] "Iteration: " "4"  
+## [1]  0.625000000000000  5.632275672601348  9.400674010092835 -0.839901072750121
+##                    count
+## [1,] "Iteration: " "5"  
+## [1]  0.312500000000000 -3.478912864698422  7.675430760854862 -0.806233172289428
+##                    count
+## [1,] "Iteration: " "6"  
+## [1]  0.4687500000000000  3.1106675009936162  8.7466048346652503
+## [4] -0.0538570680813541
+##                    count
+## [1,] "Iteration: " "7"  
+## [1] 0.390625000000000 0.692032424216795 8.292627157322086 1.870907955541296
+##                    count
+## [1,] "Iteration: " "8"  
+## [1] 0.429687500000000 2.051844654152190 8.534748544013461 0.642601744304008
+##                    count
+## [1,] "Iteration: " "9"  
+## [1] 0.41015625000000 1.41597624067666 8.41798154798743 1.57027431466990
+##                    count
+## [1,] "Iteration: " "10" 
+## [1] 0.40039062500000 1.06596353460526 8.35645187549399 3.41180037618420
+##                    count
+## [1,] "Iteration: " "11" 
+## [1] 0.395507812500000 0.882117460382905 8.324836406826840 2.831213757816644
+##                    count
+## [1,] "Iteration: " "12" 
+## [1] 0.397949218750000 0.974803630028115 8.340717072183113 4.374202524135429
+##                    count
+## [1,] "Iteration: " "13" 
+## [1] 0.39916992187500 1.02057232065208 8.34860253638789 4.57695594492983
+##                    count
+## [1,] "Iteration: " "14" 
+## [1] 0.398559570312500 0.997735413448177 8.344664340085227 6.783510255095465
+##                    count
+## [1,] "Iteration: " "15" 
+## [1] 0.39886474609375 1.00916569475797 8.34663457852132 5.38543477556215
+##                    count
+## [1,] "Iteration: " "16" 
+## [1] 0.398712158203125 1.003453514999350 8.345649747575834 6.361509906772996
+##                    count
+## [1,] "Iteration: " "17" 
+## [1] 0.398635864257812 1.000595204944698 8.345157122868496 8.119751947415141
+##                    count
+## [1,] "Iteration: " "18" 
+## [1] 0.398597717285156 0.999165494438833 8.344910765100000 7.781818331373649
+##                    count
+## [1,] "Iteration: " "19" 
+## [1] 0.398616790771484 0.999880395994595 8.345033966422699 9.724471407560991
+##                    count
+## [1,] "Iteration: " "20" 
+## [1] 0.398626327514648 1.000237812044386 8.345095537824632 9.037177106322064
+##                    count
+## [1,] "Iteration: " "21" 
+## [1]  0.398621559143066  1.000059106913290  8.345064742907882 10.429309844818214
+##                    count
+## [1,] "Iteration: " "22" 
+## [1]  0.398619174957275  0.999969752177433  8.345049331690380 11.099233537883405
+##                    count
+## [1,] "Iteration: " "23" 
+## [1]  0.398620367050171  1.000014429726207  8.345057030410397 11.839367339775446
+##                    count
+## [1,] "Iteration: " "24" 
+## [1]  0.398619771003723  0.999992090997026  8.345053203041530 12.440656010933829
+##                    count
+## [1,] "Iteration: " "25" 
+## [1]  0.398620069026947  1.000003260372931  8.345055112116517 13.326816153821831
+##                    count
+## [1,] "Iteration: " "26" 
+## [1]  0.398619920015335  0.999997675687815  8.345054132950702 13.665233577685846
+##                    count
+## [1,] "Iteration: " "27" 
+## [1]  0.398619994521141  1.000000468031081  8.345054616359260 15.267878311870151
+##                    count
+## [1,] "Iteration: " "28" 
+## [1]  0.398619957268238  0.999999071859622  8.345054387866657 14.583230026646037
+##                    count
+## [1,] "Iteration: " "29" 
+## [1]  0.398619975894690  0.999999769945385  8.345054526087248 15.978096279659901
+##                    count
+## [1,] "Iteration: " "30" 
+## [1]  0.398619985207915  1.000000118988250  8.345054564271992 16.637388271306332
+##                    count
+## [1,] "Iteration: " "31" 
+## [1]  0.398619980551302  0.999999944466817  8.345054544095332 17.399432288588205
+##                    count
+## [1,] "Iteration: " "32" 
+## [1]  0.398619982879609  1.000000031727533  8.345054575346156 17.959228149274193
+##                    count
+## [1,] "Iteration: " "33" 
+## [1]  0.398619981715456  0.999999988097175  8.345054543108965 18.939637292291639
+##                    count
+## [1,] "Iteration: " "34" 
+## [1]  0.398619982297532  1.000000009912354  8.345054547747743 19.122631109818901
+##                    count
+## [1,] "Iteration: " "35" 
+## [1]  0.398619982006494  0.999999999004771  8.345054540094932 21.421194978474951
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  0.398619982006494  0.999999999004771  8.345054540094932 21.421194978474951
+\end{verbatim}
+
+\end{document}
