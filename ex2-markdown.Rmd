@@ -5,16 +5,17 @@ date: "2022-11-07"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r a1, include=FALSE}
 library(matlib)
 library(scatterplot3d)
 library(plotly)
 library(rgl)
 options(digits = 15) 
+
+```
+
+```{r a1}
 
 v <- function(dummy, x) {
   # value function: given the risk premium rate = 'dummy' and
@@ -22,7 +23,7 @@ v <- function(dummy, x) {
   # when x -> 1 and  dummy > 4
 
   for (t in seq_along(dummy)) {
-    if (dummy[t] > 4) {
+    if (dummy[t] > 5) {
       dummy[t]  <-  2
     }
     else {
@@ -105,16 +106,24 @@ riskComputation <- function(m, param){
     v4      <- v3 %*% v2
 
     #computing the average risk rate using an equal weight for the three status
-    rr      <- c(rep(1/3,3)) %*% v4 %*% st_prob
+    once=matrix(1,3,3)
+    once
+    v4bis=v4-once
+    v4bis
+    v5=v4bis*Pi
+    v5 #NEW risky rates weighted for conditional
+    v6=v5%*%st_prob 
+    v6
+    rr      <- sum(v6)
     as.numeric(rr)
     
     #rp      <- p[, 1] %*% st_prob
     
 
     #compute index
-    i       <- v((rr - 1) * 100, rf * 100)
+    i       <- v(rr * 100, rf * 100)
 
-    out     <- c(rf * 100, (rr - 1) * 100, i)
+    out     <- c(rf * 100, rr * 100, i)
 
     return(out)
 
@@ -222,20 +231,6 @@ graphm <- function(){
   xlab="h", ylab="l", zlab="m")
   plot(mlist[,2]-mlist[,3], mlist[,1])
   
-}
-
-graphValueFunction  <-  function(){
-  risk_prem <-  c(seq(2, 6, 0.01))
-  risk_free <-  c(seq(0.01, 2, 0.01))
-  value     <- matrix(0, nrow = 0, ncol = 3)
-  for (x in risk_prem) {
-    for(y in risk_free){
-      value  <-  rbind(value, c(log(v(x, y)), x, y))
-    }
-     
-  }
-  value[!is.finite(value[, 1]), 1] <- 0
-  plot_ly(z = value, type = "surface")
 }
 
 main()
