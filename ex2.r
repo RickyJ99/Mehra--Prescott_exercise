@@ -1,4 +1,6 @@
 library(matlib)
+library(scatterplot3d)
+library(plotly)
 options(digits = 15) 
 
 v <- function(dummy, x) {
@@ -14,7 +16,7 @@ v <- function(dummy, x) {
       dummy[t]  <-  1
     }
   }
-  value <-  abs(1 / (1 - x)) * dummy
+  value <-  log(abs(1 / (1 - x)) * dummy)
   return(value)
 }
 
@@ -90,7 +92,7 @@ riskComputation <- function(m, param){
     v4      <- v3 %*% v2
 
     #computing the average risk rate using an equal weight for the three status
-    rr      <- t(st_prob) %*% v4 %*% st_prob
+    rr      <- c(rep(1/3,3)) %*% v4 %*% st_prob
     as.numeric(rr)
     
     #rp      <- p[, 1] %*% st_prob
@@ -99,7 +101,7 @@ riskComputation <- function(m, param){
     #compute index
     i       <- v((rr - 1) * 100, rf * 100)
 
-    out     <- c(rf * 100, (rr - 1) * 100, log(i))
+    out     <- c(rf * 100, (rr - 1) * 100, i)
 
     return(out)
 
@@ -108,7 +110,7 @@ riskComputation <- function(m, param){
 bisection <- function(param) {
     #bisection variable
     #setting the max min value for m
-    max     <- 20.0000
+    max     <- 6.0000
     min     <- 0.0000
     half    <- (max - min) / 2 + min
     i       <- 0 #values from value function
@@ -174,32 +176,47 @@ main <- function(){
   h       <- 1.054
   l       <- 0.982
   param   <- c(h, l, gamma, phi)
-  m       <- bisection(param)
-  m       <- bisection(param)
-  h       <- seq(from = 1.03, to=1.2, by=0.005) 
-  l       <- seq(from = 0.83, to=0.99, by=0.005)
-  mlist1  <- c(0)
-  hlist   <- c(0)
-  llist   <- c(0)
-  ilist   <- c(0)
-  mlist   <- matrix(data=c(mlist1, hlist, llist),1,3)
-  for (i in 1:length(h)){
-    for (j in 1:length(l)){
+  out <- bisection(param)
+  graphm()
+  graphValueFunction()
+  return(out)
+}
+
+
+
+graphm <- function(){
+  h       <- seq(from = 1.03, to = 1.2, by = 0.005) 
+  l       <- seq(from = 0.83, to = 0.99, by = 0.005)
+
+  mlist   <- matrix(0, 1, 3)
+  for (i in seq_along(h)){
+    for (j in seq_along(l)){
       param <- c(h[i], l[j], gamma, phi)
-      v = bisection(param)
-      print(h[i])
-      print(l[j])
-      mlist<-rbind(mlist,c(v[1],h[i],l[j]))
+      v <- bisection(param)
+      mlist <- rbind(mlist, c(v[1], h[i], l[j]))
     }
   }
-  return(mlist)
+
+  mlist <-  mlist[mlist[,1]<1,]
+  mlist <-  mlist[mlist[,1]>0,]
+  #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
+  plot_ly(z = mlist, type = "surface")
+  #plot(mlist[,2]-mlist[,3], mlist[,1])
+  
 }
-mlist=main()
-mlist=mlist[mlist[,1]<1.2,]
-mlist=mlist[mlist[,1]>0,]
-scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
-plot(mlist[,2]-mlist[,3], mlist[,1])
-h       <- 1.054
-l       <- 0.982
-param   <- c(h, l, gamma, phi)
-m       <- bisection(param)
+
+graphValueFunction  <-  function(){
+  risk_prem <-  c(seq(2, 6, 0.01))
+  risk_free <-  c(seq(0.01, 2, 0.01))
+  value     <- matrix(0, nrow = 0, ncol = 3)
+  for (x in risk_prem) {
+    for(y in risk_free){
+      value  <-  rbind(value, c(log(v(x, y)), x, y))
+    }
+     
+  }
+  value[!is.finite(value[, 1]), 1] <- 0
+  plot_ly(z = value, type = "surface")
+}
+graphValueFunction()
+main()
