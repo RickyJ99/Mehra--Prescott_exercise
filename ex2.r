@@ -1,6 +1,7 @@
 library(matlib)
 library(scatterplot3d)
 library(plotly)
+library(rgl)
 options(digits = 15) 
 
 v <- function(dummy, x) {
@@ -49,7 +50,7 @@ riskComputation <- function(m, param){
     out <-  c()
 
     #stationary prob.
-    st_prob <- c(0.5, epsilon, 0.5) * (1 + epsilon)
+    st_prob <- c(0.5, epsilon, 0.5) * (1 + epsilon)^(-1)
     st_prob
 
     #Computing the zero-cupon bond 
@@ -192,15 +193,21 @@ graphm <- function(){
   for (i in seq_along(h)){
     for (j in seq_along(l)){
       param <- c(h[i], l[j], gamma, phi)
-      v <- bisection(param)
-      mlist <- rbind(mlist, c(v[1], h[i], l[j]))
+      v5 <- bisection(param)
+      mlist <- rbind(mlist, c(v5[1], h[i], l[j]))
     }
   }
 
-  mlist <-  mlist[mlist[,1]<1,]
-  mlist <-  mlist[mlist[,1]>0,]
+  #mlist <-  mlist[mlist[,1]<1,]
+  #mlist <-  mlist[mlist[,1]>0,]
   #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
-  plot_ly(z = mlist, type = "surface")
+
+  #plot_ly(z = graphmatrix, type = "surface")
+  plot3d( 
+  x=mlist[,2], y=mlist[,3], z=mlist[ ,1], 
+  type = 's', 
+  radius = .1,
+  xlab="h", ylab="l", zlab="m")
   #plot(mlist[,2]-mlist[,3], mlist[,1])
   
 }
