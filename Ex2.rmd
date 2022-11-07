@@ -172,7 +172,7 @@ v <- function(dummy, x) {
 }
 ```
 
-```{r p10, echo=TRUE,message=TRUE}
+```{r p10, echo=FALSE,message=TRUE}
 graphValueFunction  <-  function(){
   risk_prem <-  c(seq(2, 6, 0.25))
   risk_free <-  c(seq(0.01, 2, 0.05))
@@ -184,7 +184,13 @@ graphValueFunction  <-  function(){
      
   }
   value[!is.finite(value[, 1]), 1] <- 0
-  plot_ly(z = value, type = "surface")
+  fig <- plot_ly( x = ~value[,3], y = ~value[,2], z = ~value[,1],
+                marker = list(color = ~value[ ,1], colorscale = c('#FFE1A1', '#ce07b0'), showscale =FALSE))
+  fig <- fig %>% add_markers()
+  fig <- fig %>% layout(scene = list(xaxis = list(title = 'Risk free rate'),
+                                    yaxis = list(title = 'Equity premium rate'),
+                                    zaxis = list(title = 'Value')))
+fig
 }
 graphValueFunction()
 ```
@@ -273,13 +279,13 @@ graphm <- function(){
     }
   }
 
-  mlist <-  mlist[mlist[,1]<1,]
+  mlist <-  mlist[mlist[,1]<0.5,]
   mlist <-  mlist[mlist[,1]>0,]
   #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
 
   #plot_ly(z = graphmatrix, type = "surface")
   fig <- plot_ly( x = ~mlist[,2], y = ~mlist[,3], z = ~mlist[ ,1],
-                marker = list(color = ~mlist[ ,1], colorscale = c('#FFE1A1', '#683531'), showscale = TRUE))
+                marker = list(color = ~mlist[ ,1], colorscale = c('#FFE1A1', '#b311d4'), showscale =FALSE))
   fig <- fig %>% add_markers()
   fig <- fig %>% layout(scene = list(xaxis = list(title = 'h'),
                                     yaxis = list(title = 'l'),
