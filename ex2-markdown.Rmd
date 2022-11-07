@@ -1,3 +1,15 @@
+---
+title: "Untitled"
+author: "Federico Vicentini"
+date: "2022-11-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r a1, include=FALSE}
 library(matlib)
 library(scatterplot3d)
 library(plotly)
@@ -10,7 +22,7 @@ v <- function(dummy, x) {
   # when x -> 1 and  dummy > 4
 
   for (t in seq_along(dummy)) {
-    if (dummy[t] > 5) {
+    if (dummy[t] > 4) {
       dummy[t]  <-  2
     }
     else {
@@ -93,24 +105,16 @@ riskComputation <- function(m, param){
     v4      <- v3 %*% v2
 
     #computing the average risk rate using an equal weight for the three status
-    once=matrix(1,3,3)
-    once
-    v4bis=v4-once
-    v4bis
-    v5=v4bis*Pi
-    v5 #NEW risky rates weighted for conditional
-    v6=v5%*%st_prob 
-    v6
-    rr      <- sum(v6)
+    rr      <- c(rep(1/3,3)) %*% v4 %*% st_prob
     as.numeric(rr)
     
     #rp      <- p[, 1] %*% st_prob
     
 
     #compute index
-    i       <- v(rr * 100, rf * 100)
+    i       <- v((rr - 1) * 100, rf * 100)
 
-    out     <- c(rf * 100, rr * 100, i)
+    out     <- c(rf * 100, (rr - 1) * 100, i)
 
     return(out)
 
@@ -233,5 +237,6 @@ graphValueFunction  <-  function(){
   value[!is.finite(value[, 1]), 1] <- 0
   plot_ly(z = value, type = "surface")
 }
-#graphValueFunction()
+
 main()
+```
