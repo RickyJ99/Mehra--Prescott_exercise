@@ -2,7 +2,7 @@
 title: "Monetary policy and asset pricing - Assignment no.1"
 author: "Riccardo Dal Cero"
 date: "06/11/2022"
-output: pdf_document
+output: html_document
 ---
 
 
@@ -17,12 +17,13 @@ knitr::opts_chunk$set(echo = TRUE)
 rm(list = ls())
 
 # Install packages
-packages <- c("matlib", "rmarkdown", "tinytex")
+packages <- c("matlib", "rmarkdown", "tinytex","plotly")
 new.packages <- packages[!(packages %in% installed.packages()[, "Package"])]
 if (length(new.packages)) install.packages(new.packages)
 invisible(lapply(packages, library, character.only = TRUE))
 # Load packages
 library(matlib)
+library(plotly)
 options(digits = 15)
 
 ```
@@ -36,20 +37,27 @@ the following preferences: risk premium rate > 4% and risk free rate -> Epsilon
 the risk computation function take m as input and compute the risk free / premium rate and recall
 the value function with such values.
 ```{r p1, include=TRUE}
-riskComputation <- function(m,param){
+riskComputation <- function(m, param){
+    #the risk computation function take m as input and
+    #compute the risk free / premium rate and recall
+    #the value function with such values.
+    
     #parameters 
-    phi     <-  param[4]
+    
+    phi     <-   param[4]
     beta    <- 0.96
     gamma   <- param[3]
     h       <- param[1]
     l       <- param[2]
     epsilon <- 0.012
 
+    
+
     #Generate pi Matrix
     valuesPi        <-   c(phi, epsilon, 1 - phi - epsilon, 1 / 2,
      0, 1 / 2, 1 - phi - epsilon, epsilon, phi)
     Pi              <-   matrix(valuesPi, byrow = TRUE, nrow = 3, ncol = 3)
-
+    Pi
 
     #a vector that contains the three states of the system
     values_states   <-   c(h,m,l)
@@ -58,10 +66,12 @@ riskComputation <- function(m,param){
     out <-  c()
 
     #stationary prob.
-    st_prob <- c(0.5, epsilon, 0.5) * (1 + epsilon)
+    st_prob <- c(0.5, epsilon, 0.5) * (1 + epsilon)^(-1)
+    st_prob
 
     #Computing the zero-cupon bond 
     q   <-  beta * (Pi %*% (values_states ^- gamma))
+    q
 
     #compute risk-free rate vector
     risk_free   <-   (1 / (q)) - 1
@@ -75,12 +85,14 @@ riskComputation <- function(m,param){
 
     #Computing Pi star
     Pi_star <-  Pi %*% values_matrix
+    Pi_star
 
     I       <- diag(3) #diagonal matrix
     v1      <- c(1, 1, 1) #[1,1,1]
 
     #Computing risk premium prices 
     p       <- (inv(I - beta * Pi_star)) %*% (beta * (Pi_star %*% v1))
+    p
     
     #Converting prices in rates
 
@@ -96,14 +108,25 @@ riskComputation <- function(m,param){
     #computing the matrix to convert the prices into rates
     v4      <- v3 %*% v2
 
-    #computing the avarage risk rate using an equal weight for the three status
-    rr      <- t(c(rep(1 / 3, 3))) %*% v4 %*% st_prob
+    #computing the average risk rate using an equal weight for the three status
+    once=matrix(1,3,3)
+    once
+    v4bis=v4-once
+    v4bis
+    v5=v4bis*Pi
+    v5 #NEW risky rates weighted for conditional
+    v6=v5%*%st_prob 
+    v6
+    rr      <- sum(v6)
     as.numeric(rr)
+    
+    #rp      <- p[, 1] %*% st_prob
+    
 
     #compute index
-    i       <- v((rr - 1) * 100, rf * 100)
+    i       <- v(rr * 100, rf * 100)
 
-    out     <- c(rf * 100, (rr - 1) * 100, log(i))
+    out     <- c(rf * 100, rr * 100, i)
 
     return(out)
 
@@ -114,25 +137,54 @@ riskComputation <- function(m,param){
 
 
 
-### Value function
-Value function: given the risk premium rate = 'dummy' and 'x' = risk 
-free rate as input return a value which is higher when x -> 1 and
-dummy > 4
-```{r p3}
-
+### The Value function
+The value function represents the preferences given the risk premium rate = 'dummy' and 'x' = risk-free rate as input returns a higher value when x -> 1 and
+dummy > 4. The symmetric hyperbolic  gives the function that evaluates the proximity to 1 of the risk-free rate  function:
+$$
+y=\frac{1}{|1-x|}
+$$
+While a dummy variable represents the risk-premium rate condition:
+$$
+f(n) = \begin{cases} 1, & \mbox{if } risk premium\mbox{ <5\%} \\ 2, & \mbox{otherwise }  \end{cases}
+$$
+Finally, the value function can be represented as:
+$$
+g(n) = ln(\frac{1}{|1-x|}*f(n))
+$$
+```{r p1, include=TRUE}
 v <- function(dummy, x) {
+  # value function: given the risk premium rate = 'dummy' and
+  # 'x' = risk free rate as input return a value which is higher
+  # when x -> 1 and  dummy > 4
 
   for (t in seq_along(dummy)) {
-    if (dummy[t] > 4) {
+    if (dummy[t] > 5) {
       dummy[t]  <-  2
     }
     else {
       dummy[t]  <-  1
     }
   }
-  value <-  abs(1 / (1 - x)) * dummy
+  value <-  log(abs(1 / (1 - x)) * dummy)
   return(value)
 }
+```
+
+```{r p10, echo=FALSE,message=FALSE,include=FALSE}
+graphValueFunction  <-  function(){
+  risk_prem <-  c(seq(2, 6, 0.2))
+  risk_free <-  c(seq(0.01, 2, 0.01))
+  value     <- matrix(0, nrow = 0, ncol = 3)
+  for (x in risk_prem) {
+    for(y in risk_free){
+      value  <-  rbind(value, c(v(x, y), x, y ))
+    }
+     
+  }
+  value[!is.finite(value[, 1]), 1] <- 0
+  plot_ly(z = value, type = "surface")
+}
+graphValueFunction()
 ```
 
 ### Bisection alghorithm

@@ -4,7 +4,20 @@ author: "Riccardo Dal Cero"
 date: "06/11/2022"
 output: html_document
 ---
-
+### The Value function
+The value function represents the preferences given the risk premium rate = 'dummy' and 'x' = risk-free rate as input returns a higher value when x -> 1 and
+dummy > 4. The symmetric hyperbolic  gives the function that evaluates the proximity to 1 of the risk-free rate  function:
+$$
+y=\frac{1}{|1-x|}
+$$
+While a dummy variable represents the risk-premium rate condition:
+$$
+f(n) = \begin{cases} 1, & \mbox{if } risk premium\mbox{ <5\%} \\ 2, & \mbox{otherwise }  \end{cases}
+$$
+Finally, the value function can be represented as:
+$$
+g(n) = ln(\frac{1}{|1-x|}*f(n))
+$$
 ```{r p1, include=TRUE}
 library(plotly)
 v <- function(dummy, x) {
@@ -24,7 +37,7 @@ v <- function(dummy, x) {
   return(value)
 }
 graphValueFunction  <-  function(){
-  risk_prem <-  c(seq(2, 6, 0.01))
+  risk_prem <-  c(seq(2, 6, 0.02))
   risk_free <-  c(seq(0.01, 2, 0.01))
   value     <- matrix(0, nrow = 0, ncol = 3)
   for (x in risk_prem) {
