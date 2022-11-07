@@ -198,17 +198,17 @@ graphm <- function(){
     }
   }
 
-  #mlist <-  mlist[mlist[,1]<1,]
-  #mlist <-  mlist[mlist[,1]>0,]
-  #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
+  mlist <-  mlist[mlist[,1]<1,]
+  mlist <-  mlist[mlist[,1]>0,]
+  scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
 
   #plot_ly(z = graphmatrix, type = "surface")
   plot3d( 
   x=mlist[,2], y=mlist[,3], z=mlist[ ,1], 
   type = 's', 
-  radius = .1,
+  radius = .001,
   xlab="h", ylab="l", zlab="m")
-  #plot(mlist[,2]-mlist[,3], mlist[,1])
+  plot(mlist[,2]-mlist[,3], mlist[,1])
   
 }
 
@@ -225,5 +225,5 @@ graphValueFunction  <-  function(){
   value[!is.finite(value[, 1]), 1] <- 0
   plot_ly(z = value, type = "surface")
 }
-graphValueFunction()
+#graphValueFunction()
 main()
