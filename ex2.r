@@ -194,8 +194,8 @@ main <- function(){
 
 
 graphm <- function(){
-  h       <- seq(from = 1.03, to = 1.2, by = 0.005) 
-  l       <- seq(from = 0.83, to = 0.99, by = 0.005)
+  h       <- seq(from = 1.03, to = 1.2, by = 0.01) 
+  l       <- seq(from = 0.83, to = 0.99, by = 0.01)
 
   mlist   <- matrix(0, 1, 3)
   for (i in seq_along(h)){
@@ -208,7 +208,7 @@ graphm <- function(){
 
   mlist <-  mlist[mlist[,1]<1,]
   mlist <-  mlist[mlist[,1]>0,]
-  scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
+  #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
 
   #plot_ly(z = graphmatrix, type = "surface")
   plot3d( 
@@ -216,9 +216,24 @@ graphm <- function(){
   type = 's', 
   radius = .001,
   xlab="h", ylab="l", zlab="m")
-  plot(mlist[,2]-mlist[,3], mlist[,1])
-  
+  #plot(mlist[,2]-mlist[,3], mlist[,1])
+  fig <- plot_ly( x = ~mlist[,2], y = ~mlist[,3], z = ~mlist[ ,1],
+               marker = list(color = ~mlist[ ,1], colorscale = c('#FFE1A1', '#683531'), showscale = TRUE))
+fig <- fig %>% add_markers()
+fig <- fig %>% layout(scene = list(xaxis = list(title = 'h'),
+                                   yaxis = list(title = 'l'),
+                                   zaxis = list(title = 'm')),
+                      annotations = list(
+                        x = 1.13,
+                        y = 1.05,
+                        text = 'm values with differnt l and h',
+                        xref = 'paper',
+                        yref = 'paper',
+                        showarrow = FALSE
+                        ))
+fig
 }
+graphm()
 
 graphValueFunction  <-  function(){
   risk_prem <-  c(seq(2, 6, 0.01))

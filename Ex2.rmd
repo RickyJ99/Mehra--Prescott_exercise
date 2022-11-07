@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 rm(list = ls())
 
 # Install packages
-packages <- c("matlib", "rmarkdown", "tinytex","plotly")
+packages <- c("matlib", "rmarkdown", "tinytex","plotly","rgl")
 new.packages <- packages[!(packages %in% installed.packages()[, "Package"])]
 if (length(new.packages)) install.packages(new.packages)
 invisible(lapply(packages, library, character.only = TRUE))
@@ -38,7 +38,7 @@ the following preferences: risk premium rate > 4% and risk free rate -> Epsilon
 ### Risk computation
 the risk computation function take m as input and compute the risk free / premium rate and recall
 the value function with such values.
-```{r p1, include=FALSE}
+```{r p1, include=TRUE}
 riskComputation <- function(m, param){
     #the risk computation function take m as input and
     #compute the risk free / premium rate and recall
@@ -153,7 +153,7 @@ Finally, the value function can be represented as:
 $$
 g(n) = ln(\frac{1}{|1-x|}*f(n))
 $$
-```{r p2, include=FALSE}
+```{r p2, include=TRUE}
 v <- function(dummy, x) {
   # value function: given the risk premium rate = 'dummy' and
   # 'x' = risk free rate as input return a value which is higher
@@ -172,7 +172,7 @@ v <- function(dummy, x) {
 }
 ```
 
-```{r p10, echo=TRUE,message=FALSE,include=FALSE}
+```{r p10, echo=TRUE,message=TRUE}
 graphValueFunction  <-  function(){
   risk_prem <-  c(seq(2, 6, 0.25))
   risk_free <-  c(seq(0.01, 2, 0.05))
@@ -191,7 +191,7 @@ graphValueFunction()
 
 ### Bisection alghorithm
 
-```{r p4, dev='svg', echo=TRUE, include=FALSE}
+```{r p4, dev='svg', echo=TRUE, include=TRUE}
 bisection <- function(param) {
     #bisection variable
     #setting the max min value for m
@@ -202,7 +202,7 @@ bisection <- function(param) {
     count   <- 1 #numeber of iteration
     out <-c()
     while (i < 20) {
-      print(cbind("Iteration: ", count))
+      #print(cbind("Iteration: ", count))
 
       #A vector which takes the first quartile and the last
       #from the set of possibile values (max-min)
@@ -231,7 +231,7 @@ bisection <- function(param) {
 
         max     <- half
         half    <- (max - min) / 2 + min
-        print(bis[1,])
+        #print(bis[1,])
         i       <- bis[1, 4]  #output of the value function given m
         out <- bis[1,]
 
@@ -240,7 +240,7 @@ bisection <- function(param) {
 
         min     <- half
         half    <- (max - min) / 2 + min
-        print(bis[2,])
+        #print(bis[2,])
         i       <- bis[2, 4]
         out <-  bis[2,]
 
@@ -248,7 +248,7 @@ bisection <- function(param) {
         #In case the value function return the same value for the two m
         #we have convergence so I stop the cycle
 
-        print(bis[1, ])
+        #print(bis[1, ])
 
         i <- 100
       }
@@ -259,7 +259,7 @@ bisection <- function(param) {
 ```
 
 
-```{r p6, echo=TRUE, include=FALSE}
+```{r p6, echo=TRUE, include=TRUE, dev='svg'}
 graphm <- function(){
   h       <- seq(from = 1.03, to = 1.2, by = 0.01) 
   l       <- seq(from = 0.83, to = 0.99, by = 0.01)
@@ -275,15 +275,17 @@ graphm <- function(){
 
   mlist <-  mlist[mlist[,1]<1,]
   mlist <-  mlist[mlist[,1]>0,]
-  scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
+  #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
 
   #plot_ly(z = graphmatrix, type = "surface")
-  plot3d( 
-  x=mlist[,2], y=mlist[,3], z=mlist[ ,1], 
-  type = 's', 
-  radius = .001,
-  xlab="h", ylab="l", zlab="m")
-  plot(mlist[,2]-mlist[,3], mlist[,1])
+  fig <- plot_ly( x = ~mlist[,2], y = ~mlist[,3], z = ~mlist[ ,1],
+                marker = list(color = ~mlist[ ,1], colorscale = c('#FFE1A1', '#683531'), showscale = TRUE))
+  fig <- fig %>% add_markers()
+  fig <- fig %>% layout(scene = list(xaxis = list(title = 'h'),
+                                    yaxis = list(title = 'l'),
+                                    zaxis = list(title = 'm')))
+fig
+  #plot(mlist[,2]-mlist[,3], mlist[,1])
   
 }
 
@@ -291,7 +293,7 @@ graphm <- function(){
 
 ### Main function
 
-```{r p5, echo=TRUE, include=FALSE}
+```{r p5, echo=TRUE, include=TRUE}
 phi     <- 0.43
 gamma   <- 2
 h       <- 1.054
@@ -299,6 +301,11 @@ l       <- 0.982
 param   <- c(h, l, gamma, phi)
 m       <- bisection(param)
 m
-graphm()
+```
+
+### Cazzo
+
+```{r p22, echo=FALSE, include=TRUE}
 #graphValueFunction()
+graphm()
 ```
