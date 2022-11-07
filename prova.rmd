@@ -1,0 +1,40 @@
+---
+title: "Monetary policy and asset pricing - Assignment no.1"
+author: "Riccardo Dal Cero"
+date: "06/11/2022"
+output: html_document
+---
+
+```{r p1, include=TRUE}
+library(plotly)
+v <- function(dummy, x) {
+  # value function: given the risk premium rate = 'dummy' and
+  # 'x' = risk free rate as input return a value which is higher
+  # when x -> 1 and  dummy > 4
+
+  for (t in seq_along(dummy)) {
+    if (dummy[t] > 4) {
+      dummy[t]  <-  2
+    }
+    else {
+      dummy[t]  <-  1
+    }
+  }
+  value <-  log(abs(1 / (1 - x)) * dummy)
+  return(value)
+}
+graphValueFunction  <-  function(){
+  risk_prem <-  c(seq(2, 6, 0.01))
+  risk_free <-  c(seq(0.01, 2, 0.01))
+  value     <- matrix(0, nrow = 0, ncol = 3)
+  for (x in risk_prem) {
+    for(y in risk_free){
+      value  <-  rbind(value, c(log(v(x, y)), x, y))
+    }
+     
+  }
+  value[!is.finite(value[, 1]), 1] <- 0
+  plot_ly(z = value, type = "surface")
+}
+graphValueFunction()
+```
