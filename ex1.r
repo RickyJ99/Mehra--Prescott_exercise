@@ -1,4 +1,4 @@
-data <-matrix(NA, nrow = 5, ncol = 8)
+data <- matrix(NA, nrow = 5, ncol = 10)
 
 a <- c(0.023, 0.041, 0.2)
 b <- c(0.015, 0.030, .9)
@@ -12,7 +12,7 @@ data[2,1:3 ] <- b
 data[3,1:3 ] <- c
 data[4,1:3 ] <- d
 data[5,1:3 ] <- e
-col_names <- c("u", "n", "p", "l", "h", "phi", "q_h", "q_l")
+col_names <- c("u", "n", "p", "l", "h", "phi", "q_h", "q_l","r_h","r_l")
 countries <- c("A", "B", "C", "D", "E")
 
 colnames(data) <- col_names
@@ -35,6 +35,8 @@ for (count in 1:5) {
    #risk free rate 
    data[count, 7] = beta * (phi * h^(-gam)+ (1 - phi) * l^(-gam)) #q_h
    data[count, 8] = beta * ((1 - phi) * h^(-gam) + phi * l^(-gam)) #q_l
+   data[count, 9] = data[count, 7]^(-1)-1
+   data[count, 10] = data[count, 8]^(-1)-1 #q_l
 }
-data
+kable(data)
 

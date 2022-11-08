@@ -1,8 +1,9 @@
 ---
 title: "Monetary policy and asset pricing - Assignment no.1"
-author: "Riccardo Dal Cero"
+author: "Riccardo Dal Cero, Federico Vicentini"
 date: "06/11/2022"
 output: html_document
+bibliography: references.bib
 ---
 
 
@@ -10,14 +11,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Initial Operations
 
-```{r p0, message=FALSE}
+
+```{r p0, message=FALSE, echo=FALSE}
 # Clear the variables
 rm(list = ls())
 
 # Install packages
-packages <- c("matlib", "rmarkdown", "tinytex","plotly","rgl")
+packages <- c("matlib", "rmarkdown", "tinytex","plotly","rgl","knitr")
 new.packages <- packages[!(packages %in% installed.packages()[, "Package"])]
 if (length(new.packages)) install.packages(new.packages)
 invisible(lapply(packages, library, character.only = TRUE))
@@ -26,18 +27,105 @@ library(matlib)
 library(scatterplot3d)
 library(plotly)
 library(rgl)
+library(knitr)
 options(digits = 15) 
 
 ```
+## POINT 1
+```{r p100,echo=TRUE}
+data <- matrix(NA, nrow = 5, ncol = 10)
+
+a <- c(0.023, 0.041, 0.2)
+b <- c(0.015, 0.030, .9)
+c <- c(0.030, .05, -.2)
+d <- c(.018, .036, .0)
+e <- c(.025, .045, -0.9)
+
+
+data[1,1:3 ] <- a
+data[2,1:3 ] <- b
+data[3,1:3 ] <- c
+data[4,1:3 ] <- d
+data[5,1:3 ] <- e
+col_names <- c("u", "n", "p", "l", "h", "phi", "q_h", "q_l","r_h","r_l")
+countries <- c("A", "B", "C", "D", "E")
+
+colnames(data) <- col_names
+rownames(data) <- countries
+
+beta <- 0.96
+gam <- 2
+#compute the high and low values 
+for (count in 1:5) {
+   u <- data[count,1]
+   n <- data[count,2]
+   p <- data[count,3]
+   data[count, 4] <- l <- 1 + u - n
+   data[count, 5] <- h <- 1 + u + n
+   k <- (p + (u / n)^2) * n^2
+   data[count, 6] <- k
+   data[count, 6] <- phi <- (k - ((h - 1) * (l - 1))) / (0.5 * (h - 1)^2 + 0.5 *
+   (l - 1)^2 - ((h - 1) * (l - 1)))
+   #risk free rate 
+   data[count, 7] = beta * (phi * h^(-gam)+ (1 - phi) * l^(-gam)) #q_h
+   data[count, 8] = beta * ((1 - phi) * h^(-gam) + phi * l^(-gam)) #q_l
+   data[count, 9] = data[count, 7]^(-1)-1
+   data[count, 10] = data[count, 8]^(-1)-1 #q_l
+}
+kable(data)
+
+
+```
+
+The code reported computes the transition matrix and the risk-free rates for each country. Comments are reported in the code.
+
+## Comment on the table results:
+
+COUNTRY A:
+In country A, since phi=0.6, if an individual finds itself in the state h, he has a higher probability of staying in h,
+thus decreasing the demand for risk-free assets and increasing their rate of return. The reverse happens if you find yourself
+in state l, as demand for risk-free assets increases and their rate decreases. This is why we see r_h>r_l.
+
+COUNTRY B:
+The situation is analogous to the one seen in country A, but phi is higher (0.95), thus leading to higher stability
+in economic performance, and a wider difference between r_l and r_h.
+
+COUNTRY C:
+In country C, since phi=0.4, if an individual finds itself in the state h, he has a higher probability of ending up in l,
+thus increasing the demand for risk-free assets and decreasing their rate of return. The reverse happens if you find yourself
+in state l, as demand for risk-free assets decreases and their rate increases. This is why we see r_l>r_h
+
+
+
+
+COUNTRY D:
+In country D, since phi=0.5, if an individual finds itself in the state h, he has the same probability of going to l or staying in h,
+thus the demand for risk-free assets and risky assets stay the same. If you find yourself in state l, the same reasoning applies.
+Thus, as we can clearly see by the results, r_h=r_l
+
+
+COUNTRY E:
+In country E, since phi=0.05, if an individual finds itself in the state h, he has a almost certain probability of ending up in l,
+thus increasing the demand for risk-free assets and decreasing their rate of return. The reverse happens if you find yourself
+in state l, as demand for risk-free assets decreases and their rate increases. This is why we see r_l>r_h
+Also, the gap between the two rates is very wide, since volatility is considerably higher compared to country C. 
+
+
+
+
 
 ## POINT 2
 
-We define a bisection alghorithm that max the value function which represents
-the following preferences: risk premium rate > 4% and risk free rate -> Epsilon
+The exercise demands to find a value of the third state of the world (m) which fits the following 2 criterion: a risk-free rate
+around 1\% and an equity premium above 4\%.
+
+In order to find the correct value of m without running a brute-force algorithm with thousands of iterations, we 
+have defined a bisection alghorithm that maximizes the value function which represents
+the exercise's criterion.
 
 ### Risk computation
-the risk computation function take m as input and compute the risk free / premium rate and recall
-the value function with such values.
+The risk computation function takes m as input, computes the risk-free rate and the risky rate and computes the value
+function with those values.
 ```{r p1, include=TRUE}
 riskComputation <- function(m, param){
     #the risk computation function take m as input and
@@ -140,10 +228,11 @@ riskComputation <- function(m, param){
 
 
 ### The Value function
-The value function represents the preferences given the risk premium rate = 'dummy' and 'x' = risk-free rate as input returns a higher value when x -> 1 and
-dummy > 4. The symmetric hyperbolic  gives the function that evaluates the proximity to 1 of the risk-free rate  function:
+The value function represents our preferences given the risk premium rate = 'dummy' and 'x' = risk-free rate. It returns a higher
+value when x -> 1 and dummy > 5. The symmetric hyperbolic  gives the function that evaluates the proximity to 1 of the 
+risk-free rate  function:
 $$
-y=\frac{1}{|1-x|}
+y=\left|\frac{1}{1-x}\right|
 $$
 While a dummy variable represents the risk-premium rate condition:
 $$
@@ -151,7 +240,7 @@ f(n) = \begin{cases} 1, & \mbox{if } risk premium\mbox{ <5\%} \\ 2, & \mbox{othe
 $$
 Finally, the value function can be represented as:
 $$
-g(n) = ln(\frac{1}{|1-x|}*f(n))
+g(n) = ln\left(\left|\frac{1}{1-x}\right|*f(n)\right)
 $$
 ```{r p2, include=TRUE}
 v <- function(dummy, x) {
@@ -196,6 +285,15 @@ graphValueFunction()
 ```
 
 ### Bisection alghorithm
+
+The bisection algorithm works within a set max-min range as follows:
+1. Cut the range in half
+2. Compute the value function in the points located at the limits of the first and fourth quartiles
+3. Compare the two values, and select the larger one
+4. Restart at 1, with new range set as the selected half of the previous one
+
+The process iterates multiple times, until the value function returns an index greater than 20 (in log terms it is quite high).
+
 
 ```{r p4, dev='svg', echo=TRUE, include=TRUE}
 bisection <- function(param) {
@@ -265,7 +363,7 @@ bisection <- function(param) {
 ```
 
 
-```{r p6, echo=TRUE, include=TRUE, dev='svg'}
+```{r p6, echo=FALSE, include=TRUE, dev='svg'}
 graphm <- function(){
   h       <- seq(from = 1.03, to = 1.2, by = 0.01) 
   l       <- seq(from = 0.83, to = 0.99, by = 0.01)
@@ -281,7 +379,7 @@ graphm <- function(){
 
   mlist <-  mlist[mlist[,1]<0.5,]
   mlist <-  mlist[mlist[,1]>0,]
-  #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
+  
 
   #plot_ly(z = graphmatrix, type = "surface")
   fig <- plot_ly( x = ~mlist[,2], y = ~mlist[,3], z = ~mlist[ ,1],
@@ -290,8 +388,9 @@ graphm <- function(){
   fig <- fig %>% layout(scene = list(xaxis = list(title = 'h'),
                                     yaxis = list(title = 'l'),
                                     zaxis = list(title = 'm')))
-fig
+  fig
   #plot(mlist[,2]-mlist[,3], mlist[,1])
+  #scatterplot3d(mlist[,2],mlist[,3],mlist[,1])
   
 }
 
@@ -299,7 +398,7 @@ fig
 
 ### Main function
 
-```{r p5, echo=TRUE, include=TRUE}
+```{r p5, echo=FALSE, include=TRUE}
 phi     <- 0.43
 gamma   <- 2
 h       <- 1.054
@@ -309,9 +408,60 @@ m       <- bisection(param)
 m
 ```
 
-### Cazzo
+Here we perform the main computation of the exercise. The first value displayed is the value of state m, then the values of the
+risk-free rate, the risky rate and the value function are reported.
+We see at first glance that the value of m is quite low, about 0.399. Initially, we thought that m was a medium state, lying
+between h and l. However, we were mistaken, and there is good reason for that.
+
+If m had been lying between h and l, its impact on the equity premium puzzle would have been non-existent, since the variability
+of the system would have been already captured by the one between state h and l.
+Having a low m serves instead to represent the possibility of having a catastrophic event (like a massive financial crisis), which
+erodes your assets by 60\%. This is a good way to eplain the equity premium puzzle. We can see in our results that we were able to 
+find a risk-free rate of precisely 1\% and a risky rate of 9.6\% (so, an equity premium of 8.6\%). This fares much better with 
+real-world data when compared to Mehra and Prescott's results.
+
+We interpret these improvements as a proof of the fact that catastrophic economic events are taken into consideration by
+market participants. In fact, Mehra and Prescott set the value of h and l looking at long-term variability in returns. In this way,
+one-period catastrophes are smoothed out, but this is not how economic agents would look at them. In fact, for market participants
+the possibility of losing a big chunk of their savings is considered as a real possibility, thus increasing the equity premium
+with respect to a model where catastrophic events are not taken into account. 
+
+Note that the equity premium increases more as a result of a lower risk-free rate than of a higher risky rate. This is because a
+catastrophic event increases considerably the demand for safer, risk-free assets, thus appreciating them and decreasing the
+interest rate. On the other hand, risky assets are purchased only if they present an higher return. This is what drives risky
+rates up, but the effect on them is weaker than the one on the risk-free rate.
+
+We made a quick research to check if these results had any corroboration in the economic literature. We were able to find a paper
+written by Robert J. Barro [@barro], where the inclusion of possible catastrophic economic occurences is cited as a promising 
+path to the resolution of the equity premium puzzle.
+
+Note anyway that even if results are better than those of Mehra and Prescott, the equity premium is still a bit higher than 
+what we see in the real US data.
+
+
+
+### EXTRA SECTION
 
 ```{r p22, echo=FALSE, include=TRUE}
 #graphValueFunction()
 graphm()
 ```
+
+We added this final section because we wanted to investigate the relationship between the value of m and the value of h and l.
+
+We interpret h and l as being a measure of the volatility of an economy, and we wanted to see for different values of both
+how the value of m found with our alogorithm would change.
+
+We plotted the results using a 3d graph, where we can easily see how an increasing h or an increasing l lead to a lower 
+value of m, but the difference between them also plays a role in diminishing m.
+
+You can see this by interacting with the graph: if you consider a point where, for example h=1.15 and l=0.94, we have m=0.35;
+in this case we can see how both h and l are higher than in our baseline case, and indeed their difference is higher; thus
+we are not surprised to find that m is lower, leading us to believe that a lower value for the catastrphic state is needed
+to obtain the desired rates, since the variability of this model is even lower than that of Mehra and Prescott.
+
+Indeed, if you move 1 point in each direction starting from these values, you can find confirmation of this relationship, as
+you can see that decreasing h, l or the difference between them will increase the value of m (and vice-versa).
+
+
+## REFERENCES
