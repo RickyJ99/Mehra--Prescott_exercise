@@ -40,3 +40,14 @@ for (count in 1:5) {
 }
 kable(data)
 
+beta=0.97
+h=1.12
+l=0.97
+pi=matrix(NA,2,2)
+pi[1,]=c(0.5,0.5)
+pi[2,]=c(0.5,0.5)
+value_states=c(h,l)
+pist= pi %*% diag(2)
+m2=inv( diag(2) - (beta * pist) )
+p=m2 %*% (beta * pist) %*% c(1,1)
+p
